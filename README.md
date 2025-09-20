@@ -1,142 +1,139 @@
+🏥 Hospital Management System
 
-
-# 🏥 Hospital Management System
-
-A simple **Hospital Management System** built using **Core Java**, **JDBC**, and **MySQL**.
+A simple Hospital Management System built using Core Java, JDBC, and MySQL.
 This project demonstrates how to manage patients, doctors, and appointments with a database backend.
 
 ---
 
 ## 🚀 Features
 
-* Add new patients
-* View all patients
-* View all doctors
-* Book an appointment with a doctor
-* Store and retrieve data from **MySQL database**
+- Add new patients  
+- Add new doctors  
+- Book appointments (with date validation)  
+- View all patients, doctors, and appointments  
+- Cancel appointments  
+- Input validation (age, gender, date format)
 
 ---
 
-## 🗂️ Project Structure
+## 🗂 Project Structure
 
 ```
-HospitalManagementSystem/
+
+HospitalManagementSystem/        ← root folder
 │
-├── HospitalManagementSystem.java   # Main entry point
-├── Patient.java                    # Patient model
-├── Doctor.java                     # Doctor model
-├── README.md                       # Project documentation
+├── README.md
+├── src/
+│   ├── hospital/app/Main.java
+│   ├── hospital/model/Patient.java
+│   ├── hospital/model/Doctor.java
+│   ├── hospital/model/Appointment.java
+│   ├── hospital/dao/PatientDAO.java
+│   ├── hospital/dao/DoctorDAO.java
+│   ├── hospital/dao/AppointmentDAO.java
+│   ├── hospital/service/PatientService.java
+│   ├── hospital/service/DoctorService.java
+│   ├── hospital/service/AppointmentService.java
+│   └── hospital/util/DatabaseConnection.java
+│       └── hospital/util/InputUtil.java
+
+````
+
+---
+
+## 🗄 Database Setup (MySQL)
+
+Create a database named **hospital** and tables:
+
+```sql
+CREATE DATABASE hospital;
+USE hospital;
+
+CREATE TABLE patients (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    age INT,
+    gender VARCHAR(10),
+    problem VARCHAR(255)
+);
+
+CREATE TABLE doctors (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    specialization VARCHAR(100)
+);
+
+CREATE TABLE appointments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    patient_id INT,
+    doctor_id INT,
+    appointment_date DATE,
+    FOREIGN KEY (patient_id) REFERENCES patients(id),
+    FOREIGN KEY (doctor_id) REFERENCES doctors(id)
+);
+````
+
+---
+
+## ⚙️ Configuration
+
+Update database credentials in `DatabaseConnection.java`:
+
+```java
+private static final String URL = "jdbc:mysql://localhost:3306/hospital";
+private static final String USER = "root";          // your MySQL username
+private static final String PASSWORD = "your_password_here"; // your MySQL password
 ```
 
 ---
 
-## 🛠️ Tech Stack
+## 🏃 How to Run the Project
 
-* **Java (Core + OOPs)**
-* **JDBC** (Java Database Connectivity)
-* **MySQL**
+### 1️⃣ Compile
 
----
+Open terminal in project folder and run:
 
-## 🗄️ Database Schema
+```bash
+javac -d bin src/hospital/**/*.java
+```
 
-### Table: `patients`
+### 2️⃣ Run
 
-| Column      | Type     |
-| ----------- | -------- |
-| patient\_id | INT (PK) |
-| name        | VARCHAR  |
-| age         | INT      |
-| gender      | VARCHAR  |
+Run the main class:
 
-### Table: `doctors`
+```bash
+java -cp bin hospital.app.Main
+```
 
-| Column         | Type     |
-| -------------- | -------- |
-| doctor\_id     | INT (PK) |
-| name           | VARCHAR  |
-| specialization | VARCHAR  |
+* You will see the menu:
 
-### Table: `appointments`
+```
+=== Hospital Management System ===
+1. Add Patient
+2. Book Appointment
+3. View All Patients
+4. View All Doctors
+5. View Appointments
+6. Cancel Appointment
+7. Add Doctor
+0. Exit
+```
 
-| Column            | Type     |
-| ----------------- | -------- |
-| appointment\_id   | INT (PK) |
-| patient\_id       | INT (FK) |
-| doctor\_id        | INT (FK) |
-| appointment\_date | DATE     |
-
----
-
-## ⚙️ Setup Instructions
-
-1. **Clone the repository**
-
-   ```bash
-   git clone https://github.com/your-username/hospital-management-system.git
-   cd hospital-management-system
-   ```
-
-2. **Setup MySQL database**
-
-   ```sql
-   CREATE DATABASE hospital_db;
-   USE hospital_db;
-
-   CREATE TABLE patients (
-       patient_id INT PRIMARY KEY AUTO_INCREMENT,
-       name VARCHAR(100),
-       age INT,
-       gender VARCHAR(10)
-       problem VARCHAR(100)
-   );
-
-   CREATE TABLE doctors (
-       doctor_id INT PRIMARY KEY AUTO_INCREMENT,
-       name VARCHAR(100),
-       specialization VARCHAR(100)
-   );
-
-   CREATE TABLE appointments (
-       appointment_id INT PRIMARY KEY AUTO_INCREMENT,
-       patient_id INT,
-       doctor_id INT,
-       appointment_date DATE,
-       FOREIGN KEY (patient_id) REFERENCES patients(patient_id),
-       FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id)
-   );
-   ```
-
-3. **Update Database Credentials in Java Code**
-
-   ```java
-   String url = "jdbc:mysql://localhost:3306/hospital_db";
-   String username = "root";   // your MySQL username
-   String password = "1234";   // your MySQL password
-   ```
-
-4. **Compile & Run**
-
-   ```bash
-   javac HospitalManagementSystem.java
-   java HospitalManagementSystem
-   ```
+* Enter the number corresponding to your choice and press **Enter**.
 
 ---
 
 ## 📌 Future Improvements
 
-* Add login system (Admin/Doctor/Patient)
-* Add search and update functionality
-* Upgrade project with **Spring Boot + REST APIs**
+* Add update/delete functionality for patients and doctors
+* Reschedule appointments
+* Add login system (Admin / User roles)
+* Upgrade to Spring Boot + REST API backend
 
 ---
 
 ## 👨‍💻 Author
 
-**Your Name**
-
-* GitHub: [Ajaykhande](https://github.com/ajaykhande)
+* **Ajay Khande**
+* GitHub: [ajaykhande](https://github.com/ajaykhande)
 * 
-
-
